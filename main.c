@@ -1,12 +1,13 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
-#include "restaurante.h"
+#include "lista_pedidos.h"
 
-static void limpar_entrada(void) {
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF) {
+static void limpar_buffer(void) {
+    int caractere;
+
+    /* Descarta o restante da linha para evitar lixo no buffer de entrada. */
+    while ((caractere = getchar()) != '\n' && caractere != EOF) {
     }
 }
 
@@ -16,18 +17,34 @@ static int ler_inteiro(const char *mensagem) {
     while (1) {
         printf("%s", mensagem);
         if (scanf("%d", &valor) == 1) {
-            limpar_entrada();
+            limpar_buffer();
             return valor;
         }
 
         printf("Entrada invalida. Digite um numero inteiro.\n");
-        limpar_entrada();
+        limpar_buffer();
     }
 }
 
-static void ler_texto(const char *mensagem, char *destino, size_t tamanho) {
+static float ler_float(const char *mensagem) {
+    float valor;
+
+    while (1) {
+        printf("%s", mensagem);
+        if (scanf("%f", &valor) == 1) {
+            limpar_buffer();
+            return valor;
+        }
+
+        printf("Entrada invalida. Digite um valor numerico.\n");
+        limpar_buffer();
+    }
+}
+
+static void ler_texto(const char *mensagem, char *destino, int tamanho) {
     printf("%s", mensagem);
-    if (fgets(destino, (int)tamanho, stdin) == NULL) {
+
+    if (fgets(destino, tamanho, stdin) == NULL) {
         destino[0] = '\0';
         return;
     }
@@ -35,83 +52,84 @@ static void ler_texto(const char *mensagem, char *destino, size_t tamanho) {
     destino[strcspn(destino, "\n")] = '\0';
 }
 
-static void cadastrar_cliente(ListaReservas *lista) {
-    char nome[TAM_NOME];
-    int pessoas;
-    int mesa;
-    int opcao_reserva;
-    StatusCliente status;
+static Pedido ler_dados_pedido(const ListaPedidos *lista) {
+    Pedido pedido;
 
-    ler_texto("Nome do cliente: ", nome, sizeof(nome));
-    pessoas = ler_inteiro("Quantidade de pessoas: ");
-    mesa = ler_inteiro("Numero da mesa desejada (0 se nao houver preferencia): ");
-    opcao_reserva = ler_inteiro("Tipo de registro [1-Reserva | 2-Lista de espera]: ");
+    while (1) {
+        pedido.id = ler_inteiro("Informe o ID do pedido: ");
+        if (pedido.id <= 0) {
+            printf("O ID deve ser um numero positivo.\n");
+            continue;
+        }
 
-    status = (opcao_reserva == 1) ? STATUS_RESERVA : STATUS_ESPERA;
+        if (!id_ja_cadastrado(lista, pedido.id)) {
+            break;
+        }
 
-    if (inserir_cliente(lista, nome, pessoas, mesa, status)) {
-        printf("Cliente cadastrado com sucesso.\n");
+        printf("Esse ID ja esta em uso. Informe outro valor.\n");
+    }
+
+    ler_texto("Nome do cliente: ", pedido.nome_cliente, TAM_NOME);
+
+    while (1) {
+        pedido.valor_total = ler_float("Valor total do pedido: ");
+        if (pedido.valor_total >= 0.0f) {
+            break;
+        }
+
+        printf("O valor do pedido nao pode ser negativo.\n");
+    }
+
+    ler_texto("Status do pedido: ", pedido.status, TAM_STATUS);
+
+    return pedido;
+}
+
+static void inserir_pedido_prioritario(ListaPedidos *lista) {
+    Pedido pedido = ler_dados_pedido(lista);
+
+    if (inserir_no_inicio(lista, pedido)) {
+        printf("Pedido prioritario inserido no inicio da lista com sucesso.\n");
     } else {
-        printf("Nao foi possivel cadastrar o cliente.\n");
+        printf("Falha ao inserir o pedido por falta de memoria.\n");
     }
 }
 
-static void cancelar_registro(ListaReservas *lista) {
-    int codigo = ler_inteiro("Codigo do registro para cancelamento: ");
+static void inserir_pedido_comum(ListaPedidos *lista) {
+    Pedido pedido = ler_dados_pedido(lista);
 
-    if (remover_cliente(lista, codigo)) {
-        printf("Registro removido com sucesso.\n");
+    if (inserir_no_fim(lista, pedido)) {
+        printf("Pedido comum inserido no final da lista com sucesso.\n");
     } else {
-        printf("Registro nao encontrado.\n");
+        printf("Falha ao inserir o pedido por falta de memoria.\n");
     }
 }
 
-static void confirmar_chegada_cliente(ListaReservas *lista) {
-    int codigo = ler_inteiro("Codigo da reserva/lista para confirmar chegada: ");
+static void remover_pedido(ListaPedidos *lista) {
+    int id = ler_inteiro("Informe o ID do pedido que deseja remover: ");
 
-    if (confirmar_chegada(lista, codigo)) {
-        printf("Chegada confirmada.\n");
+    if (remover_por_id(lista, id)) {
+        printf("Pedido removido com sucesso.\n");
     } else {
-        printf("Nao foi possivel confirmar a chegada.\n");
+        printf("Pedido nao encontrado.\n");
     }
-}
-
-static void liberar_mesa_cliente(ListaReservas *lista) {
-    if (atender_proximo_cliente(lista)) {
-        printf("Mesa liberada e proximo cliente atendido.\n");
-    } else {
-        printf("Nenhum cliente apto para atendimento no momento.\n");
-    }
-}
-
-static void buscar_cliente_menu(const ListaReservas *lista) {
-    int codigo = ler_inteiro("Codigo do cliente: ");
-    const NoReserva *cliente = buscar_cliente(lista, codigo);
-
-    if (cliente == NULL) {
-        printf("Cliente nao encontrado.\n");
-        return;
-    }
-
-    exibir_cliente(cliente);
 }
 
 static void exibir_menu(void) {
-    printf("\n=== Sistema de Restaurante ===\n");
-    printf("1. Cadastrar reserva ou espera\n");
-    printf("2. Cancelar registro\n");
-    printf("3. Confirmar chegada do cliente\n");
-    printf("4. Liberar mesa para o proximo cliente\n");
-    printf("5. Listar registros\n");
-    printf("6. Buscar cliente por codigo\n");
-    printf("7. Exibir resumo\n");
-    printf("0. Sair\n");
+    printf("\n===== CONTROLE DE PEDIDOS DELIVERY =====\n");
+    printf("1. Inserir novo pedido no inicio (prioritario)\n");
+    printf("2. Inserir novo pedido no final (comum)\n");
+    printf("3. Remover pedido pelo ID\n");
+    printf("4. Exibir pedidos do inicio para o fim\n");
+    printf("5. Exibir pedidos do fim para o inicio\n");
+    printf("6. Encerrar o programa\n");
 }
 
 int main(void) {
-    ListaReservas lista;
+    ListaPedidos lista;
     int opcao;
 
+    /* A lista comeca vazia e vai sendo preenchida conforme o menu. */
     inicializar_lista(&lista);
 
     do {
@@ -120,34 +138,28 @@ int main(void) {
 
         switch (opcao) {
             case 1:
-                cadastrar_cliente(&lista);
+                inserir_pedido_prioritario(&lista);
                 break;
             case 2:
-                cancelar_registro(&lista);
+                inserir_pedido_comum(&lista);
                 break;
             case 3:
-                confirmar_chegada_cliente(&lista);
+                remover_pedido(&lista);
                 break;
             case 4:
-                liberar_mesa_cliente(&lista);
+                exibir_do_inicio(&lista);
                 break;
             case 5:
-                listar_clientes(&lista);
+                exibir_do_fim(&lista);
                 break;
             case 6:
-                buscar_cliente_menu(&lista);
-                break;
-            case 7:
-                exibir_resumo(&lista);
-                break;
-            case 0:
-                printf("Encerrando o sistema.\n");
+                printf("Programa encerrado.\n");
                 break;
             default:
-                printf("Opcao invalida.\n");
+                printf("Opcao invalida. Tente novamente.\n");
                 break;
         }
-    } while (opcao != 0);
+    } while (opcao != 6);
 
     liberar_lista(&lista);
     return 0;

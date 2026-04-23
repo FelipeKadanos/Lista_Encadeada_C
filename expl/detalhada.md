@@ -8,9 +8,9 @@ O projeto é um sistema de controle de pedidos de delivery desenvolvido em C. El
 
 Arquivos principais do projeto:
 
-- [main.c](./main.c)
-- [lista_pedidos.h](./lista_pedidos.h)
-- [lista_pedidos.c](./lista_pedidos.c)
+- [main.c](../main.c)
+- [lista_pedidos.h](../lista_pedidos.h)
+- [lista_pedidos.c](../lista_pedidos.c)
 
 ## Objetivo da estrutura de dados
 
@@ -26,7 +26,7 @@ Uma lista simplesmente encadeada já permitiria várias dessas operações, mas 
 
 ## Modelagem dos dados
 
-Toda a modelagem do projeto está em [lista_pedidos.h](./lista_pedidos.h).
+Toda a modelagem do projeto está em [lista_pedidos.h](../lista_pedidos.h).
 
 ### Struct `Pedido`
 
@@ -92,7 +92,7 @@ Guardar `inicio` e `fim` facilita inserções e percursos nas duas extremidades.
 
 O projeto foi separado em arquivos com responsabilidades diferentes.
 
-### [lista_pedidos.h](./lista_pedidos.h)
+### [lista_pedidos.h](../lista_pedidos.h)
 
 Esse arquivo contém:
 
@@ -102,11 +102,11 @@ Esse arquivo contém:
 
 Ele funciona como um contrato entre o `main.c` e `lista_pedidos.c`.
 
-### [lista_pedidos.c](./lista_pedidos.c)
+### [lista_pedidos.c](../lista_pedidos.c)
 
 Esse arquivo contém a implementação da estrutura de dados. É nele que estão as funções que realmente manipulam a lista.
 
-### [main.c](./main.c)
+### [main.c](../main.c)
 
 Esse arquivo cuida da interação com o usuário:
 
@@ -117,7 +117,7 @@ Esse arquivo cuida da interação com o usuário:
 
 ## Inicialização da lista
 
-Em [lista_pedidos.c](./lista_pedidos.c), a função `inicializar_lista` prepara a lista para uso:
+Em [lista_pedidos.c](../lista_pedidos.c), a função `inicializar_lista` prepara a lista para uso:
 
 ```c
 void inicializar_lista(ListaPedidos *lista) {
@@ -135,7 +135,7 @@ Isso significa que, no início:
 
 ## Criação dinâmica dos nós
 
-Cada pedido novo precisa de memória própria. Para isso, o projeto usa `malloc` na função `criar_no`, em [lista_pedidos.c](./lista_pedidos.c):
+Cada pedido novo precisa de memória própria. Para isso, o projeto usa `malloc` na função `criar_no`, em [lista_pedidos.c](../lista_pedidos.c):
 
 ```c
 static NoPedido *criar_no(Pedido pedido) {
@@ -162,7 +162,7 @@ Se o `malloc` falhar, a função retorna `NULL` e a inserção é cancelada.
 
 ## Verificação de lista vazia
 
-A função `lista_vazia`, em [lista_pedidos.c](./lista_pedidos.c), simplifica várias decisões do programa:
+A função `lista_vazia`, em [lista_pedidos.c](../lista_pedidos.c), simplifica várias decisões do programa:
 
 ```c
 int lista_vazia(const ListaPedidos *lista) {
@@ -174,7 +174,7 @@ Se `inicio` for `NULL`, significa que a lista não possui nenhum nó.
 
 ## Controle de IDs repetidos
 
-No arquivo [main.c](./main.c), a leitura dos dados do pedido chama a função `id_ja_cadastrado`, implementada em [lista_pedidos.c](./lista_pedidos.c). Ela percorre a lista para impedir que dois pedidos tenham o mesmo ID.
+No arquivo [main.c](../main.c), a leitura dos dados do pedido chama a função `id_ja_cadastrado`, implementada em [lista_pedidos.c](../lista_pedidos.c). Ela percorre a lista para impedir que dois pedidos tenham o mesmo ID.
 
 Trecho principal:
 
@@ -197,7 +197,7 @@ Isso melhora a consistência do sistema, já que a remoção é feita informando
 
 ## Inserção de pedido prioritário no início
 
-Pedidos prioritários entram no começo da lista. Essa lógica está na função `inserir_no_inicio`, em [lista_pedidos.c](./lista_pedidos.c):
+Pedidos prioritários entram no começo da lista. Essa lógica está na função `inserir_no_inicio`, em [lista_pedidos.c](../lista_pedidos.c):
 
 ```c
 int inserir_no_inicio(ListaPedidos *lista, Pedido pedido) {
@@ -238,7 +238,7 @@ Esse ajuste dos ponteiros garante que a ligação continue correta nos dois sent
 
 ## Inserção de pedido comum no final
 
-Pedidos comuns entram no final da lista. Essa lógica está na função `inserir_no_fim`, em [lista_pedidos.c](./lista_pedidos.c):
+Pedidos comuns entram no final da lista. Essa lógica está na função `inserir_no_fim`, em [lista_pedidos.c](../lista_pedidos.c):
 
 ```c
 int inserir_no_fim(ListaPedidos *lista, Pedido pedido) {
@@ -276,7 +276,7 @@ Se a lista já tiver elementos:
 
 ## Remoção de pedido por ID
 
-A remoção é uma das partes mais importantes do trabalho, porque precisa tratar casos especiais. A lógica está em `remover_por_id`, em [lista_pedidos.c](./lista_pedidos.c).
+A remoção é uma das partes mais importantes do trabalho, porque precisa tratar casos especiais. A lógica está em `remover_por_id`, em [lista_pedidos.c](../lista_pedidos.c).
 
 Trecho principal:
 
@@ -332,7 +332,7 @@ Depois disso, o nó removido é liberado com `free`.
 
 ## Exibição do início para o fim
 
-Essa operação usa o ponteiro `proximo`. A implementação está em `exibir_do_inicio`, em [lista_pedidos.c](./lista_pedidos.c):
+Essa operação usa o ponteiro `proximo`. A implementação está em `exibir_do_inicio`, em [lista_pedidos.c](../lista_pedidos.c):
 
 ```c
 void exibir_do_inicio(const ListaPedidos *lista) {
@@ -354,7 +354,7 @@ Essa função começa no primeiro nó e avança até o final.
 
 ## Exibição do fim para o início
 
-Essa operação usa o ponteiro `anterior`. A implementação está em `exibir_do_fim`, em [lista_pedidos.c](./lista_pedidos.c):
+Essa operação usa o ponteiro `anterior`. A implementação está em `exibir_do_fim`, em [lista_pedidos.c](../lista_pedidos.c):
 
 ```c
 void exibir_do_fim(const ListaPedidos *lista) {
@@ -376,7 +376,7 @@ Essa função só é possível de forma simples porque a lista é duplamente enc
 
 ## Impressão dos dados do pedido
 
-A função `exibir_pedido`, em [lista_pedidos.c](./lista_pedidos.c), centraliza a exibição dos dados:
+A função `exibir_pedido`, em [lista_pedidos.c](../lista_pedidos.c), centraliza a exibição dos dados:
 
 ```c
 static void exibir_pedido(const Pedido *pedido) {
@@ -392,7 +392,7 @@ Isso evita repetição de código nas funções de exibição.
 
 ## Parte do menu em `main.c`
 
-O arquivo [main.c](./main.c) é responsável por conversar com o usuário.
+O arquivo [main.c](../main.c) é responsável por conversar com o usuário.
 
 ### Leitura segura dos dados
 
@@ -407,7 +407,7 @@ Essas funções ajudam a evitar erros comuns de entrada no terminal.
 
 ### Montagem do pedido
 
-A função `ler_dados_pedido`, em [main.c](./main.c), reúne todos os dados do pedido:
+A função `ler_dados_pedido`, em [main.c](../main.c), reúne todos os dados do pedido:
 
 ```c
 static Pedido ler_dados_pedido(const ListaPedidos *lista) {
@@ -453,7 +453,7 @@ Além disso, ela impede ID duplicado.
 
 ### Loop principal do menu
 
-O funcionamento do programa acontece dentro do `do...while` de `main`, em [main.c](./main.c):
+O funcionamento do programa acontece dentro do `do...while` de `main`, em [main.c](../main.c):
 
 ```c
 do {
@@ -490,7 +490,7 @@ Essa parte conecta o menu textual às funções da lista.
 
 ## Liberação da memória
 
-No final do programa, a função `liberar_lista`, em [lista_pedidos.c](./lista_pedidos.c), percorre todos os nós e chama `free`:
+No final do programa, a função `liberar_lista`, em [lista_pedidos.c](../lista_pedidos.c), percorre todos os nós e chama `free`:
 
 ```c
 void liberar_lista(ListaPedidos *lista) {
@@ -572,9 +572,9 @@ Em termos de aprendizado de estrutura de dados, este projeto demonstra:
 
 Se vocês quiserem dominar o projeto com mais segurança, uma boa ordem é:
 
-1. Ler [lista_pedidos.h](./lista_pedidos.h) para entender as structs.
-2. Ler [lista_pedidos.c](./lista_pedidos.c) para entender como a lista funciona.
-3. Ler [main.c](./main.c) para entender como o usuário interage com o sistema.
+1. Ler [lista_pedidos.h](../lista_pedidos.h) para entender as structs.
+2. Ler [lista_pedidos.c](../lista_pedidos.c) para entender como a lista funciona.
+3. Ler [main.c](../main.c) para entender como o usuário interage com o sistema.
 4. Voltar em `remover_por_id` e revisar com calma, porque essa é a função mais importante da lógica de ponteiros.
 
 ## Conclusão

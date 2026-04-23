@@ -25,13 +25,13 @@ Isso permite andar na lista em duas direções, que é justamente a principal ca
 
 ## Estrutura dos arquivos
 
-- [main.c](./main.c): contém o menu textual, a leitura dos dados e a interação com o usuário.
-- [lista_pedidos.h](./lista_pedidos.h): contém as structs e os protótipos das funções.
-- [lista_pedidos.c](./lista_pedidos.c): contém a implementação da lista duplamente encadeada.
+- [main.c](../main.c): contém o menu textual, a leitura dos dados e a interação com o usuário.
+- [lista_pedidos.h](../lista_pedidos.h): contém as structs e os protótipos das funções.
+- [lista_pedidos.c](../lista_pedidos.c): contém a implementação da lista duplamente encadeada.
 
 ## Estruturas principais
 
-No arquivo [lista_pedidos.h](./lista_pedidos.h), o projeto usa três estruturas principais:
+No arquivo [lista_pedidos.h](../lista_pedidos.h), o projeto usa três estruturas principais:
 
 - `Pedido`: guarda `id`, `nome_cliente`, `valor_total` e `status`.
 - `NoPedido`: representa um nó da lista, com o pedido e os ponteiros `anterior` e `proximo`.
@@ -39,7 +39,7 @@ No arquivo [lista_pedidos.h](./lista_pedidos.h), o projeto usa três estruturas 
 
 ## Fluxo geral do programa
 
-O programa começa em [main.c](./main.c), inicializa a lista vazia e mostra um menu em loop. Enquanto o usuário não escolher sair, o programa lê a opção digitada e chama a função correspondente.
+O programa começa em [main.c](../main.c), inicializa a lista vazia e mostra um menu em loop. Enquanto o usuário não escolher sair, o programa lê a opção digitada e chama a função correspondente.
 
 ## Ideia principal das operações
 
@@ -61,8 +61,8 @@ A lista duplamente encadeada encaixa bem nesse problema porque:
 
 Se vocês quiserem entender o projeto de forma rápida, vale ler nesta ordem:
 
-1. [lista_pedidos.h](./lista_pedidos.h)
-2. [lista_pedidos.c](./lista_pedidos.c)
-3. [main.c](./main.c)
+1. [lista_pedidos.h](../lista_pedidos.h)
+2. [lista_pedidos.c](../lista_pedidos.c)
+3. [main.c](../main.c)
 
 Essa ordem ajuda porque primeiro vocês entendem os tipos de dados, depois as operações da lista e por fim a parte do menu.

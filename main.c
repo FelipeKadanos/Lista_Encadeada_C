@@ -1,7 +1,9 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "lista_pedidos.h"
+#include "lista_pedidos.c"
 
 static void limpar_buffer(void) {
     int caractere;
@@ -9,6 +11,14 @@ static void limpar_buffer(void) {
     /* Descarta o restante da linha para evitar lixo no buffer de entrada. */
     while ((caractere = getchar()) != '\n' && caractere != EOF) {
     }
+}
+
+static void limpar_tela(void) {
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
 }
 
 static int ler_inteiro(const char *mensagem) {
@@ -135,6 +145,7 @@ int main(void) {
     do {
         exibir_menu();
         opcao = ler_inteiro("Escolha uma opcao: ");
+        limpar_tela();
 
         switch (opcao) {
             case 1:

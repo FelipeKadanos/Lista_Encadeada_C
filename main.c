@@ -81,11 +81,13 @@ static float ler_float(const char *mensagem) {
 static void ler_texto(const char *mensagem, char *destino, int tamanho) {
     printf("%s", mensagem);
 
+    /* fgets le a linha inteira com espacos e evita ultrapassar o tamanho do vetor. */
     if (fgets(destino, tamanho, stdin) == NULL) {
         destino[0] = '\0';
         return;
     }
 
+    /* Remove o '\n' deixado pelo Enter para que o texto fique pronto para exibicao e comparacao. */
     destino[strcspn(destino, "\n")] = '\0';
 }
 
@@ -97,6 +99,7 @@ static void ler_texto(const char *mensagem, char *destino, int tamanho) {
 static Pedido ler_dados_pedido(const ListaPedidos *lista) {
     Pedido pedido;
 
+    /* O laco so termina quando o ID for positivo e ainda nao existir na lista. */
     while (1) {
         pedido.id = ler_inteiro("Informe o ID do pedido: ");
         if (pedido.id <= 0) {
@@ -113,6 +116,7 @@ static Pedido ler_dados_pedido(const ListaPedidos *lista) {
 
     ler_texto("Nome do cliente: ", pedido.nome_cliente, TAM_NOME);
 
+    /* O valor do pedido e validado para impedir cadastro de totais negativos. */
     while (1) {
         pedido.valor_total = ler_float("Valor total do pedido: ");
         if (pedido.valor_total >= 0.0f) {

@@ -1,26 +1,26 @@
 #ifndef LISTA_PEDIDOS_H
 #define LISTA_PEDIDOS_H
 
-#define TAM_NOME 100
-#define TAM_STATUS 40
+#define TAM_NOME 100 // Tamanho maximo do nome do cliente
+#define TAM_STATUS 40 // Tamanho maximo do status do pedido
 
-typedef struct {
-    int id;
-    char nome_cliente[TAM_NOME];
-    float valor_total;
-    char status[TAM_STATUS];
+typedef struct {                    // Dados do pedido
+    int id;                         // ID do pedido
+    char nome_cliente[TAM_NOME];    // Nome do cliente
+    float valor_total;              // Valor do pedido
+    char status[TAM_STATUS];        // Status atual
 } Pedido;
 
-typedef struct NoPedido {
-    Pedido pedido;
-    struct NoPedido *anterior;
-    struct NoPedido *proximo;
+typedef struct NoPedido {       // No da lista
+    Pedido pedido;              // Pedido armazenado
+    struct NoPedido *anterior;  // No anterior
+    struct NoPedido *proximo;   // Proximo no
 } NoPedido;
 
-typedef struct {
-    NoPedido *inicio;
-    NoPedido *fim;
-    int quantidade;
+typedef struct {        // Controle da lista
+    NoPedido *inicio;   // Primeiro no
+    NoPedido *fim;      // Ultimo no
+    int quantidade;     // Total de pedidos
 } ListaPedidos;
 
 void inicializar_lista(ListaPedidos *lista);

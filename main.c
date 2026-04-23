@@ -5,6 +5,11 @@
 #include "lista_pedidos.h"
 #include "lista_pedidos.c"
 
+/**
+ * Limpa caracteres restantes da leitura anterior para evitar erros no scanf/fgets.
+ * @param void Nao recebe parametros.
+ * @return Nao retorna valor.
+ */
 static void limpar_buffer(void) {
     int caractere;
 
@@ -13,6 +18,11 @@ static void limpar_buffer(void) {
     }
 }
 
+/**
+ * Limpa a tela do terminal conforme o sistema operacional em uso.
+ * @param void Nao recebe parametros.
+ * @return Nao retorna valor.
+ */
 static void limpar_tela(void) {
 #ifdef _WIN32
     system("cls");
@@ -21,6 +31,11 @@ static void limpar_tela(void) {
 #endif
 }
 
+/**
+ * Le um numero inteiro do usuario e repete a pergunta ate receber um valor valido.
+ * @param mensagem Texto exibido ao usuario antes da leitura.
+ * @return int O numero inteiro digitado pelo usuario.
+ */
 static int ler_inteiro(const char *mensagem) {
     int valor;
 
@@ -36,6 +51,11 @@ static int ler_inteiro(const char *mensagem) {
     }
 }
 
+/**
+ * Le um valor numerico decimal e valida a entrada antes de retornar.
+ * @param mensagem Texto exibido ao usuario antes da leitura.
+ * @return float O valor numerico digitado pelo usuario.
+ */
 static float ler_float(const char *mensagem) {
     float valor;
 
@@ -51,20 +71,35 @@ static float ler_float(const char *mensagem) {
     }
 }
 
+/**
+ * Le um texto do teclado e salva no vetor recebido, respeitando o tamanho maximo informado.
+ * @param mensagem Texto exibido ao usuario antes da leitura.
+ * @param destino Vetor onde o texto digitado sera armazenado.
+ * @param tamanho Quantidade maxima de caracteres que podem ser lidos.
+ * @return Nao retorna valor.
+ */
 static void ler_texto(const char *mensagem, char *destino, int tamanho) {
     printf("%s", mensagem);
 
+    /* fgets le a linha inteira com espacos e evita ultrapassar o tamanho do vetor. */
     if (fgets(destino, tamanho, stdin) == NULL) {
         destino[0] = '\0';
         return;
     }
 
+    /* Remove o '\n' deixado pelo Enter para que o texto fique pronto para exibicao e comparacao. */
     destino[strcspn(destino, "\n")] = '\0';
 }
 
+/**
+ * Solicita todos os campos de um pedido e devolve a estrutura pronta para insercao.
+ * @param lista Lista usada para verificar se o ID informado ja existe.
+ * @return Pedido Estrutura preenchida com os dados digitados.
+ */
 static Pedido ler_dados_pedido(const ListaPedidos *lista) {
     Pedido pedido;
 
+    /* O laco so termina quando o ID for positivo e ainda nao existir na lista. */
     while (1) {
         pedido.id = ler_inteiro("Informe o ID do pedido: ");
         if (pedido.id <= 0) {
@@ -81,6 +116,7 @@ static Pedido ler_dados_pedido(const ListaPedidos *lista) {
 
     ler_texto("Nome do cliente: ", pedido.nome_cliente, TAM_NOME);
 
+    /* O valor do pedido e validado para impedir cadastro de totais negativos. */
     while (1) {
         pedido.valor_total = ler_float("Valor total do pedido: ");
         if (pedido.valor_total >= 0.0f) {
@@ -95,6 +131,11 @@ static Pedido ler_dados_pedido(const ListaPedidos *lista) {
     return pedido;
 }
 
+/**
+ * Coleta um pedido prioritario e tenta inseri-lo no inicio da lista.
+ * @param lista Lista onde o novo pedido sera inserido.
+ * @return Nao retorna valor.
+ */
 static void inserir_pedido_prioritario(ListaPedidos *lista) {
     Pedido pedido = ler_dados_pedido(lista);
 
@@ -105,6 +146,11 @@ static void inserir_pedido_prioritario(ListaPedidos *lista) {
     }
 }
 
+/**
+ * Coleta um pedido comum e tenta inseri-lo no final da lista.
+ * @param lista Lista onde o novo pedido sera inserido.
+ * @return Nao retorna valor.
+ */
 static void inserir_pedido_comum(ListaPedidos *lista) {
     Pedido pedido = ler_dados_pedido(lista);
 
@@ -115,6 +161,11 @@ static void inserir_pedido_comum(ListaPedidos *lista) {
     }
 }
 
+/**
+ * Solicita um ID ao usuario e remove o pedido correspondente, se ele existir.
+ * @param lista Lista de onde o pedido sera removido.
+ * @return Nao retorna valor.
+ */
 static void remover_pedido(ListaPedidos *lista) {
     int id = ler_inteiro("Informe o ID do pedido que deseja remover: ");
 
@@ -125,6 +176,11 @@ static void remover_pedido(ListaPedidos *lista) {
     }
 }
 
+/**
+ * Exibe na tela as opcoes disponiveis no programa.
+ * @param void Nao recebe parametros.
+ * @return Nao retorna valor.
+ */
 static void exibir_menu(void) {
     printf("\n===== CONTROLE DE PEDIDOS DELIVERY =====\n");
     printf("1. Inserir novo pedido no inicio (prioritario)\n");
@@ -135,6 +191,11 @@ static void exibir_menu(void) {
     printf("6. Encerrar o programa\n");
 }
 
+/**
+ * Controla o menu principal e o ciclo de vida da lista de pedidos.
+ * @param void Nao recebe parametros.
+ * @return int 0 quando o programa e encerrado normalmente.
+ */
 int main(void) {
     ListaPedidos lista;
     int opcao;

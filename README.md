@@ -1,5 +1,9 @@
 # Atividade
 
+Projeto desenvolvido em linguagem C para implementar um sistema de controle de pedidos de delivery utilizando lista duplamente encadeada e menu de interação.
+
+### Autores: ***Felipe Kadanos*** GitHub: [FelipeKadanos](https://github.com/FelipeKadanos) e ***Marcos Ferrari*** GitHub: [marcosferraridev](https://github.com/marcosferraridev)
+
 Atividade a ser realizada individualmente ou em dupla.
 
 **Valor:** 1 ponto

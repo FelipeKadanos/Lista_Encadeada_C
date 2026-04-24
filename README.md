@@ -1,8 +1,15 @@
-# Atividade
+# Sistema de Controle de Pedidos de Delivery
 
 Projeto desenvolvido em linguagem C para implementar um sistema de controle de pedidos de delivery utilizando lista duplamente encadeada e menu de interação.
 
-### Autores: ***Felipe Kadanos*** GitHub: [FelipeKadanos](https://github.com/FelipeKadanos) e ***Marcos Ferrari*** GitHub: [marcosferraridev](https://github.com/marcosferraridev)
+## Autores
+
+| Autor | GitHub |
+| --- | --- |
+| ***Felipe Kadanos*** | [FelipeKadanos](https://github.com/FelipeKadanos) |
+| ***Marcos Ferrari*** | [marcosferraridev](https://github.com/marcosferraridev) |
+
+## Atividade
 
 Atividade a ser realizada individualmente ou em dupla.
 
@@ -10,9 +17,11 @@ Atividade a ser realizada individualmente ou em dupla.
 
 ## Critérios de avaliação
 
-- todas as funções implementadas: 0,4
-- código comentado: 0,2
-- funcionalidades OK: 0,4
+| Critério | Pontuação |
+| --- | ---: |
+| Todas as funções implementadas | 0,4 |
+| Código comentado | 0,2 |
+| Funcionalidades OK | 0,4 |
 
 ## Descrição
 
@@ -22,15 +31,14 @@ Desenvolva uma aplicação em linguagem C que implemente um sistema de controle 
 
 A aplicação deverá disponibilizar as seguintes funcionalidades:
 
-1. Inserir um novo pedido no início da lista
-2. (pedido prioritário)
-3. Inserir um novo pedido no final da lista
-4. (pedido comum, conforme ordem de chegada)
-5. Remover um pedido, informando o ID do pedido
-6. (cancelamento de pedido)
-7. Exibir todos os pedidos do início para o fim, mostrando todos os dados do pedido
-8. Exibir todos os pedidos do fim para o início, mostrando todos os dados do pedido
-9. Encerrar o programa
+| Item(s) do enunciado | Funcionalidade | Observação |
+| ---: | --- | --- |
+| 1 e 2 | Inserir um novo pedido no início da lista | Pedido prioritário |
+| 3 e 4 | Inserir um novo pedido no final da lista | Pedido comum, conforme ordem de chegada |
+| 5 e 6 | Remover um pedido, informando o ID do pedido | Cancelamento de pedido |
+| 7 | Exibir todos os pedidos do início para o fim | Mostrando todos os dados do pedido |
+| 8 | Exibir todos os pedidos do fim para o início | Mostrando todos os dados do pedido |
+| 9 | Encerrar o programa | - |
 
 ## Requisitos Técnicos
 
